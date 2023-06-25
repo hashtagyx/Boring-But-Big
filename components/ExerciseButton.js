@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     text: {
         color: 'black',
         alignSelf: 'center',
-        fontSize: 17,
+        fontSize: 20,
     },
 
     container: {

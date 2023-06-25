@@ -4,27 +4,16 @@ import TrainingMaxes from './TrainingMaxes';
 import ExerciseButton from './ExerciseButton';
 import RowOfButtons from './RowOfButtons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import benchExercisesWeek1DB from '../data/jsonFiles/bench/benchExercisesWeek1DB.json'
-import benchExercisesWeek2DB from '../data/jsonFiles/bench/benchExercisesWeek2DB.json'
-import benchExercisesWeek3DB from '../data/jsonFiles/bench/benchExercisesWeek3DB.json'
-import benchExercisesWeekDeloadDB from '../data/jsonFiles/bench/benchExercisesWeekDeloadDB.json'
-
-import squatExercisesWeek1DB from '../data/jsonFiles/squat/squatExercisesWeek1DB.json'
-import squatExercisesWeek2DB from '../data/jsonFiles/squat/squatExercisesWeek2DB.json'
-import squatExercisesWeek3DB from '../data/jsonFiles/squat/squatExercisesWeek3DB.json'
-import squatExercisesWeekDeloadDB from '../data/jsonFiles/squat/squatExercisesWeekDeloadDB.json'
-
-import OHPExercisesWeek1DB from '../data/jsonFiles/ohp/OHPExercisesWeek1DB.json'
-import OHPExercisesWeek2DB from '../data/jsonFiles/ohp/OHPExercisesWeek2DB.json'
-import OHPExercisesWeek3DB from '../data/jsonFiles/ohp/OHPExercisesWeek3DB.json'
-import OHPExercisesWeekDeloadDB from '../data/jsonFiles/ohp/OHPExercisesWeekDeloadDB.json'
-
-import deadliftExercisesWeek1DB from '../data/jsonFiles/deadlift/deadliftExercisesWeek1DB.json'
-import deadliftExercisesWeek2DB from '../data/jsonFiles/deadlift/deadliftExercisesWeek2DB.json'
-import deadliftExercisesWeek3DB from '../data/jsonFiles/deadlift/deadliftExercisesWeek3DB.json'
-import deadliftExercisesWeekDeloadDB from '../data/jsonFiles/deadlift/deadliftExercisesWeekDeloadDB.json'
-
+import {FileSystem} from 'react-native-fs';
+// import {benchExercisesWeek1DB, benchExercisesWeek2DB, benchExercisesWeek3DB, benchExercisesWeekDeloadDB} from '..\\data\\jsonFiles\\bench\\benchExercisesWeek1DB'
+import benchExercisesWeek1DB from './benchExercisesWeek1DB.json'
+import benchExercisesWeek2DB from './benchExercisesWeek2DB.json'
+import benchExercisesWeek3DB from './benchExercisesWeek3DB.json'
+import benchExercisesWeekDeloadDB from './benchExercisesWeekDeloadDB.json'
+// C:\Users\cyx_9\WorkoutApp\data\jsonFiles\bench\benchExercisesWeek1DB.json
+// import {squatExercisesWeek1DB, squatExercisesWeek2DB, squatExercisesWeek3DB, squatExercisesWeekDeloadDB} from '..\\data\\jsonFiles\\squat'
+// data\jsonFiles\bench
+// import {deadliftExercisesWeek1DB, deadliftExercisesWeek2DB, deadliftExercisesWeek3DB, deadliftExercisesWeekDeloadDB} from '..\\data\\jsonFiles\\deadlift'
 const HomeScreen = ({navigation}) => {
   const BeginNextWeek = async () => {
     // uncheck this week's workouts
@@ -59,16 +48,16 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
-  // useEffect(() => {
-  //     AsyncStorage.getAllKeys((err, keys) => {
-  //         AsyncStorage.multiGet(keys, (error, stores) => {
-  //             stores.map((result, i, store) => {
-  //                 console.log({ [store[i][0]]: store[i][1] });
-  //                 return true;
-  //             });
-  //         });
-  //     });
-  // });
+  useEffect(() => {
+      AsyncStorage.getAllKeys((err, keys) => {
+          AsyncStorage.multiGet(keys, (error, stores) => {
+              stores.map((result, i, store) => {
+                  console.log({ [store[i][0]]: store[i][1] });
+                  return true;
+              });
+          });
+      });
+  });
 
   const [week, setWeek] = useState(1);
   const [SquatTM, setSquatTM] = useState(20);
@@ -97,7 +86,6 @@ const HomeScreen = ({navigation}) => {
   const populateAsyncStorage = async () => {
     try {
       // Set your initial values using AsyncStorage.setItem()
-      console.log('populating async storage!!!')
       await storeData('week', 1);
       await storeData('SquatCheck', false);
       await storeData('BenchPressCheck', false);
@@ -108,41 +96,45 @@ const HomeScreen = ({navigation}) => {
       await storeData('DeadliftTM', 20);
       await storeData('OverheadPressTM', 20);
       
-      await storeData('squatExercisesWeekDeloadDB', JSON.parse(squatExercisesWeekDeloadDB));
-      await storeData('squatExercisesWeek1DB', JSON.parse(squatExercisesWeek1DB));
-      await storeData('squatExercisesWeek2DB', JSON.parse(squatExercisesWeek2DB));
-      await storeData('squatExercisesWeek3DB', JSON.parse(squatExercisesWeek3DB));
-      await storeData('squatExercisesWeekDeload', JSON.parse(squatExercisesWeekDeloadDB));
-      await storeData('squatExercisesWeek1', JSON.parse(squatExercisesWeek1DB));
-      await storeData('squatExercisesWeek2', JSON.parse(squatExercisesWeek2DB));
-      await storeData('squatExercisesWeek3', JSON.parse(squatExercisesWeek3DB));
+      // const squatFilepath = '../data/jsonFiles/squat/'
+      await storeLocalFileData('squatExercisesWeekDeloadDB', squatFilepath + 'squatExercisesWeekDeloadDB.json');
+      await storeLocalFileData('squatExercisesWeek1DB.json', squatFilepath + 'squatExercisesWeek1DB.json');
+      await storeLocalFileData('squatExercisesWeek2DB.json', squatFilepath + 'squatExercisesWeek2DB.json');
+      await storeLocalFileData('squatExercisesWeek3DB.json', squatFilepath + 'squatExercisesWeek3DB.json');
+      await storeLocalFileData('squatExercisesWeekDeload', squatFilepath + 'squatExercisesWeekDeloadDB.json');
+      await storeLocalFileData('squatExercisesWeek1.json', squatFilepath + 'squatExercisesWeek1DB.json');
+      await storeLocalFileData('squatExercisesWeek2.json', squatFilepath + 'squatExercisesWeek2DB.json');
+      await storeLocalFileData('squatExercisesWeek3.json', squatFilepath + 'squatExercisesWeek3DB.json');
 
+      // const benchFilepath = '../data/jsonFiles/bench/'
       await storeData('benchExercisesWeekDeloadDB', JSON.parse(benchExercisesWeekDeloadDB));
-      await storeData('benchExercisesWeek1DB', JSON.parse(benchExercisesWeek1DB));
-      await storeData('benchExercisesWeek2DB', JSON.parse(benchExercisesWeek2DB));
-      await storeData('benchExercisesWeek3DB', JSON.parse(benchExercisesWeek3DB));
-      await storeData('benchExercisesWeekDeload', JSON.parse(benchExercisesWeekDeloadDB));
-      await storeData('benchExercisesWeek1', JSON.parse(benchExercisesWeek1DB));
-      await storeData('benchExercisesWeek2', JSON.parse(benchExercisesWeek2DB));
-      await storeData('benchExercisesWeek3', JSON.parse(benchExercisesWeek3DB));
+      await storeLocalFileData('benchExercisesWeek1DB', benchFilepath + 'benchExercisesWeek1DB.json');
+      await storeLocalFileData('benchExercisesWeek2DB', benchFilepath + 'benchExercisesWeek2DB.json');
+      await storeLocalFileData('benchExercisesWeek3DB', benchFilepath + 'benchExercisesWeek3DB.json');
+      await storeLocalFileData('benchExercisesWeekDeload', benchFilepath + 'benchExercisesWeekDeloadDB.json');
+      await storeLocalFileData('benchExercisesWeek1', benchFilepath + 'benchExercisesWeek1DB.json');
+      await storeLocalFileData('benchExercisesWeek2', benchFilepath + 'benchExercisesWeek2DB.json');
+      await storeLocalFileData('benchExercisesWeek3', benchFilepath + 'benchExercisesWeek3DB.json');
 
-      await storeData('deadliftExercisesWeekDeloadDB', JSON.parse(deadliftExercisesWeekDeloadDB));
-      await storeData('deadliftExercisesWeek1DB', JSON.parse(deadliftExercisesWeek1DB));
-      await storeData('deadliftExercisesWeek2DB', JSON.parse(deadliftExercisesWeek2DB));
-      await storeData('deadliftExercisesWeek3DB', JSON.parse(deadliftExercisesWeek3DB));
-      await storeData('deadliftExercisesWeekDeload', JSON.parse(deadliftExercisesWeekDeloadDB));
-      await storeData('deadliftExercisesWeek1', JSON.parse(deadliftExercisesWeek1DB));
-      await storeData('deadliftExercisesWeek2', JSON.parse(deadliftExercisesWeek2DB));
-      await storeData('deadliftExercisesWeek3', JSON.parse(deadliftExercisesWeek3DB));
+      // const deadliftFilepath = '../data/jsonFiles/deadlift/'
+      await storeLocalFileData('deadliftExercisesWeekDeloadDB', deadliftFilepath + 'deadliftExercisesWeekDeloadDB.json');
+      await storeLocalFileData('deadliftExercisesWeek1DB', deadliftFilepath + 'deadliftExercisesWeek1DB.json');
+      await storeLocalFileData('deadliftExercisesWeek2DB', deadliftFilepath + 'deadliftExercisesWeek2DB.json');
+      await storeLocalFileData('deadliftExercisesWeek3DB', deadliftFilepath + 'deadliftExercisesWeek3DB.json');
+      await storeLocalFileData('deadliftExercisesWeekDeload', deadliftFilepath + 'deadliftExercisesWeekDeloadDB.json');
+      await storeLocalFileData('deadliftExercisesWeek1', deadliftFilepath + 'deadliftExercisesWeek1DB.json');
+      await storeLocalFileData('deadliftExercisesWeek2', deadliftFilepath + 'deadliftExercisesWeek2DB.json');
+      await storeLocalFileData('deadliftExercisesWeek3', deadliftFilepath + 'deadliftExercisesWeek3DB.json');
 
-      await storeData('OHPExercisesWeekDeloadDB', JSON.parse(OHPExercisesWeekDeloadDB));
-      await storeData('OHPExercisesWeek1DB', JSON.parse(OHPExercisesWeek1DB));
-      await storeData('OHPExercisesWeek2DB', JSON.parse(OHPExercisesWeek2DB));
-      await storeData('OHPExercisesWeek3DB', JSON.parse(OHPExercisesWeek3DB));
-      await storeData('OHPExercisesWeekDeload', JSON.parse(OHPExercisesWeekDeloadDB));
-      await storeData('OHPExercisesWeek1', JSON.parse(OHPExercisesWeek1DB));
-      await storeData('OHPExercisesWeek2', JSON.parse(OHPExercisesWeek2DB));
-      await storeData('OHPExercisesWeek3', JSON.parse(OHPExercisesWeek3DB));
+      // const ohpFilepath = '../data/jsonFiles/ohp/'
+      await storeLocalFileData('ohpExercisesWeekDeloadDB', ohpFilepath + 'OHPExercisesWeekDeloadDB.json');
+      await storeLocalFileData('ohpExercisesWeek1DB', ohpFilepath + 'OHPExercisesWeek1DB.json');
+      await storeLocalFileData('ohpExercisesWeek2DB', ohpFilepath + 'OHPExercisesWeek2DB.json');
+      await storeLocalFileData('ohpExercisesWeek3DB', ohpFilepath + 'OHPExercisesWeek3DB.json');
+      await storeLocalFileData('ohpExercisesWeekDeload', ohpFilepath + 'OHPExercisesWeekDeloadDB.json');
+      await storeLocalFileData('ohpExercisesWeek1', ohpFilepath + 'OHPExercisesWeek1DB.json');
+      await storeLocalFileData('ohpExercisesWeek2', ohpFilepath + 'OHPExercisesWeek2DB.json');
+      await storeLocalFileData('ohpExercisesWeek3', ohpFilepath + 'OHPExercisesWeek3DB.json');
       
       // Add more items as needed
     } catch (error) {
@@ -151,19 +143,26 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
+  const storeLocalFileData = async (key, filePath) => {
+    try {
+      const fileContent = await FileSystem.readFile(filePath, 'utf8');
+      await AsyncStorage.setItem(key, fileContent);
+      console.log('File data stored successfully.');
+    } catch (error) {
+      console.log('Error storing file data:', error);
+    }
+  };
+
   useEffect(() => {
     const performInitialSetup = async () => {
       const asyncStoragePopulated = await isAsyncStoragePopulated();
-      console.log("is asyncStoragePopulated?" + asyncStoragePopulated)
       if (!asyncStoragePopulated) {
         await populateAsyncStorage();
       }
       getData('week').then(data => setWeek(Number(data)));
-      getData('SquatTM').then(data => setSquatTM(Number(data)));      
+      getData('SquatTM').then(data => setSquatTM(Number(data)));
       getData('BenchPressTM').then(data => setBenchPressTM(Number(data)));
-      console.log('DeadliftTM: pre fetch', DeadliftTM)
       getData('DeadliftTM').then(data => setDeadliftTM(Number(data)));
-      console.log('DeadliftTM:', DeadliftTM)
       getData('OverheadPressTM').then(data => setOverheadPressTM(Number(data)));
       getData('SquatCheck').then(data => setSquatCheck(data));
       getData('BenchPressCheck').then(data => setBenchPressCheck(data));
@@ -326,33 +325,23 @@ const HomeScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    console.log('Updating week')
     updateExercises();
   }, [week]);
 
   useEffect(() => {
-    // idek illegal workaround i guess
-    if (SquatTM != 20) {
-      storeData('SquatTM', SquatTM);
-    }
+    storeData('SquatTM', SquatTM);
   }, [SquatTM]);
 
   useEffect(() => {
-    if (BenchPressTM != 20) {
-      storeData('BenchPressTM', BenchPressTM);
-    }
+    storeData('BenchPressTM', BenchPressTM);
   }, [BenchPressTM]);
 
   useEffect(() => {
-    if (DeadliftTM != 20) {
-      storeData('DeadliftTM', DeadliftTM);
-    }
+    storeData('DeadliftTM', DeadliftTM);
   }, [DeadliftTM]);
 
   useEffect(() => {
-    if (OverheadPressTM != 20) {
-      storeData('OverheadPressTM', OverheadPressTM);
-    }
+    storeData('OverheadPressTM', OverheadPressTM);
   }, [OverheadPressTM]);
 
 //   useEffect(() => {

@@ -13,7 +13,8 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{animation: 'none'}}>
+      {/* <Stack.Navigator screenOptions={{animation: 'none'}}> */}
+      <Stack.Navigator>
         <Stack.Screen name="Home" options={{title: "Boring But Big"}} component={HomeScreen} />
         <Stack.Screen name="Squat" component={Squat} />
         <Stack.Screen name="Bench Press" component={BenchPress} />

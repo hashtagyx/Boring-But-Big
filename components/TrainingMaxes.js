@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
         color: 'black',
         alignSelf: 'center',
         textAlign: 'center',
+        fontSize: 13.5,
     },
 
     rowOfTMs: {

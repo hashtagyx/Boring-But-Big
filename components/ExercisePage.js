@@ -60,6 +60,13 @@ const ExercisePage = ( {ExerciseTM, exercises, setExercises} ) => {
     )
   }
 
+  const repOrReps = (number) => {
+    if (number == 1) {
+      return 'rep'
+    }
+    return 'reps'
+  }
+
   const getBody = (exercise) => {
     return (
       exercise.type === 'main' ?
@@ -68,7 +75,7 @@ const ExercisePage = ( {ExerciseTM, exercises, setExercises} ) => {
             const currentWeight = 2.5 * Math.ceil(item * ExerciseTM / 2.5)
             return (
               <View key={index} style={styles.exerciseRow}>
-                <Text key={index} style={styles.sectionTitle}>{currentWeight} kg x {exercise.reps[index]} reps</Text>
+                <Text key={index} style={styles.sectionTitle}>{currentWeight} kg x {exercise.reps[index]} {repOrReps(exercise.reps[index])}</Text>
                 <CheckBox
                   style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
                   value={exercise.checked[index]}

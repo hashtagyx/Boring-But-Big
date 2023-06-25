@@ -111,7 +111,7 @@ const EditTrainingMax = ({ route, navigation }) => {
 
         <View style={styles.exerciseView}>
           <Text style={styles.text}>Overhead Press</Text>
-          <TextInput maxLength={6} style={styles.textInputOHP}
+          <TextInput maxLength={6} style={styles.textInput}
             onChangeText={value => onOHPTextChanged(value)}
             value={tempOverheadPress + ''} keyboardType='numeric' />
         </View>
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
   text: {
     margin: 10,
     color: 'black',
+    fontSize: 13.5,
   },
 
   textInput: {
@@ -147,16 +148,18 @@ const styles = StyleSheet.create({
     width: '30%',
     alignSelf: 'center',
     textAlign: 'center',
+    color: 'black',
+    fontSize: 13.5
   },
 
-  textInputOHP: {
-    borderColor: 'grey',
-    borderWidth: 1,
-    margin: 10,
-    width: '30%',
-    alignSelf: 'center',
-    textAlign: 'center',
-  },
+  // textInputOHP: {
+  //   borderColor: 'grey',
+  //   borderWidth: 1,
+  //   margin: 10,
+  //   width: '30%',
+  //   alignSelf: 'center',
+  //   textAlign: 'center',
+  // },
 
   exerciseViewWrapper: {
     padding: 10,
@@ -201,7 +204,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     alignSelf: 'center',
-    fontSize: 17,
+    textAlign: 'center',
+    fontSize: 13.5,
   },
 })
 
